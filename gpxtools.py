@@ -53,6 +53,10 @@ def get_numrte(root):
 def get_numrtept(rte):
     return len(rte.findall(ns + 'rtept'))
 
+def set_name(trk,name):
+    for c in trk.iterchildren(ns+"name"):
+        c.text = name
+
 def distance(lat1, lon1, lat2, lon2):
     radius = 6371000 # meter
     lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
