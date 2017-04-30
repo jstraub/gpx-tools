@@ -1,4 +1,4 @@
-import sys
+import sys, os, re
 from gpxtools import *
 
 def findLargeTracks(filename, maxLen=500):
@@ -98,22 +98,25 @@ def splitLargeTracks(filename, maxLen=500):
 #        fname = filename+"_{}.gpx".format(nTrack)
 #        treeC.write(fname, xml_declaration = True, encoding='utf-8')
 #        info(fname)
-      fname = filename+"_splitInOne.gpx"
+      fname = filename[:-4]+"_splitIntoMax{}PtTracks.gpx".format(maxLen)
       treeOut.write(fname, xml_declaration = True, encoding='utf-8')
       info(fname)
 
+#if filename is None:
+#  try:
+#      filename = sys.argv[1]
+#  except Exception:
+#      print "Usage: gpx-info <filename>"
+#      print "Show info about the contents of <filename>"
+#      sys.exit(1)
+
 filename = "../ca_section_a_gps/CA_Sec_A_tracks.gpx"
+filename = "../ca_state_gps/CA_Sec_A_tracks.gpx"
 
-if filename is None:
-  try:
-      filename = sys.argv[1]
-  except Exception:
-      print "Usage: gpx-info <filename>"
-      print "Show info about the contents of <filename>"
-      sys.exit(1)
-
-#gpxtools.info(filename)
-#findLargeTracks(filename)
-splitLargeTracks(filename)
+for sections in ["../ca_state_gps","../or_state_gps","../wa_state_gps"]:
+  for root, dirs, files in os.walk(sections):
+    for filename in files:
+      if re.search("tracks.gpx", filename):
+        splitLargeTracks(os.path.join(root,filename))
 
 
