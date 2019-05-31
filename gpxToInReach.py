@@ -109,14 +109,27 @@ def splitLargeTracks(filename, maxLen=500):
 #      print "Usage: gpx-info <filename>"
 #      print "Show info about the contents of <filename>"
 #      sys.exit(1)
+PCT=False
+AT=True
 
-filename = "../ca_section_a_gps/CA_Sec_A_tracks.gpx"
-filename = "../ca_state_gps/CA_Sec_A_tracks.gpx"
+# AT
+if AT:
+  for sections in ["/home/jstraub/Downloads/AT/"]:
+    for root, dirs, files in os.walk(sections):
+      for filename in files:
+        print filename
+        if filename.endswith("gpx"):
+          splitLargeTracks(os.path.join(root,filename))
 
-for sections in ["../ca_state_gps","../or_state_gps","../wa_state_gps"]:
-  for root, dirs, files in os.walk(sections):
-    for filename in files:
-      if re.search("tracks.gpx", filename):
-        splitLargeTracks(os.path.join(root,filename))
-
-
+# PCT
+if PCT:
+  filename = "../ca_section_a_gps/CA_Sec_A_tracks.gpx"
+  filename = "../ca_state_gps/CA_Sec_A_tracks.gpx"
+  
+  for sections in ["../ca_state_gps","../or_state_gps","../wa_state_gps"]:
+    for root, dirs, files in os.walk(sections):
+      for filename in files:
+        if re.search("tracks.gpx", filename):
+          splitLargeTracks(os.path.join(root,filename))
+  
+  
